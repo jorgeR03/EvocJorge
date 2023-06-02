@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"co.edu.uco.evoc"})
 public class EvocApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EvocApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EvocApiApplication.class, args);
+    }
 
 }

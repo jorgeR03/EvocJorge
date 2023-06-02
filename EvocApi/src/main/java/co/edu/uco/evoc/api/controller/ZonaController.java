@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uco.evoc.dto.ZonaDTO;
 
-@RestController()
+@RestController
 @RequestMapping("evoc/api/v1/zona")
-public final class ZonaController {
+public class Controller {
 	
 	@GetMapping
 	public ZonaDTO test() {
