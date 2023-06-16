@@ -1,8 +1,8 @@
 package co.edu.uco.evoc.api.controller;
 
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,56 +18,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uco.evoc.api.controller.response.Response;
-import co.edu.uco.evoc.api.validator.zona.RegistrarZonaValidation;
-import co.edu.uco.evoc.business.facade.ZonaFacade;
-import co.edu.uco.evoc.business.facade.impl.ZonaFacadeImpl;
+import co.edu.uco.evoc.api.validator.zona.RegistrarTipoEleccionValidation;
+import co.edu.uco.evoc.business.facade.TipoEleccionFacade;
+import co.edu.uco.evoc.business.facade.impl.TipoEleccionFacadeImpl;
 import co.edu.uco.evoc.crosscutting.exception.EvocException;
+import co.edu.uco.evoc.dto.TipoEleccionDTO;
 import co.edu.uco.evoc.dto.ZonaDTO;
 
 @RestController()
-@RequestMapping("evoc/api/v1/zona")
-public final class ZonaController {
+@RequestMapping("evoc/api/v1/TipoEleccion")
+public final class TipoEleccionController {
 	
-private Logger log = LoggerFactory.getLogger(ZonaController.class);
+	private Logger log = LoggerFactory.getLogger(TipoEleccionController.class);
 	
-	private ZonaFacade facade;
+	private TipoEleccionFacade facade;
 	
 	@GetMapping("/dummy")
-	public ZonaDTO dummy() {
-		return ZonaDTO.create();
+	public TipoEleccionDTO dummy() {
+		return TipoEleccionDTO.create();
 	}
 	
 	@GetMapping
-	public ResponseEntity<Response<ZonaDTO>> list(@RequestBody ZonaDTO dto){
+	public ResponseEntity<Response<TipoEleccionDTO>> list(@RequestBody ZonaDTO dto){
 		
-		List<ZonaDTO> list = new ArrayList<>();
+		List<TipoEleccionDTO> list = new ArrayList<>();
 		
 		List<String> messages = new ArrayList<>();
-		messages.add("Estados de tipos de relación institucion consultados exitosamente");
+		messages.add("Tipos de Eleccion consultados exitosamente");
 		
-		Response<ZonaDTO> response = new Response<>(list, messages);
+		Response<TipoEleccionDTO> response = new Response<>(list, messages);
 		
-		return new ResponseEntity<Response<ZonaDTO>>(response, HttpStatus.OK);
+		return new ResponseEntity<Response<TipoEleccionDTO>>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ZonaDTO listById(@PathVariable UUID id){
-		return ZonaDTO.create().setIdentificador(id);
+	public TipoEleccionDTO listById(@PathVariable UUID id){
+		return TipoEleccionDTO.create().setIdentificador(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<ZonaDTO>> create(@RequestBody ZonaDTO dto) {
+	public ResponseEntity<Response<TipoEleccionDTO>> create(@RequestBody TipoEleccionDTO dto) {
 		
 		var statusCode = HttpStatus.OK;
-		var response = new Response<ZonaDTO>();
+		var response = new Response<TipoEleccionDTO>();
 		
 		try {
-			var result = RegistrarZonaValidation.validate(dto);
+			var result = RegistrarTipoEleccionValidation.validate(dto);
 			
 			if (result.getMessages().isEmpty()) {
-				facade = new ZonaFacadeImpl();
+				facade = new TipoEleccionFacadeImpl();
 				facade.register(dto);
-				response.getMessages().add("El nuevo tipo relación institucion se ha registrado de forma satidfactoria");
+				response.getMessages().add("El nuevo Tipo Eleccion se ha registrado de forma satisfactoria");
 			}else {
 				statusCode = HttpStatus.BAD_REQUEST;
 				response.setMessages(result.getMessages());
@@ -88,13 +89,15 @@ private Logger log = LoggerFactory.getLogger(ZonaController.class);
 	}
 	
 	@PutMapping("/{id}")
-	public ZonaDTO update(@PathVariable UUID id, @RequestBody ZonaDTO dto) {
+	public TipoEleccionDTO update(@PathVariable UUID id, @RequestBody TipoEleccionDTO dto) {
 		return dto.setIdentificador(id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ZonaDTO delete(@PathVariable UUID id) {
-		return ZonaDTO.create().setIdentificador(id);
+	public TipoEleccionDTO delete(@PathVariable UUID id) {
+		return TipoEleccionDTO.create().setIdentificador(id);
 	}
+	
+	
 
 }

@@ -1,8 +1,8 @@
 package co.edu.uco.evoc.api.controller;
 
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,56 +18,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uco.evoc.api.controller.response.Response;
-import co.edu.uco.evoc.api.validator.zona.RegistrarZonaValidation;
-import co.edu.uco.evoc.business.facade.ZonaFacade;
-import co.edu.uco.evoc.business.facade.impl.ZonaFacadeImpl;
+import co.edu.uco.evoc.api.validator.zona.RegistrarCandidatoValidation;
+import co.edu.uco.evoc.business.facade.CandidatoFacade;
+import co.edu.uco.evoc.business.facade.impl.CandidatoFacadeImpl;
 import co.edu.uco.evoc.crosscutting.exception.EvocException;
-import co.edu.uco.evoc.dto.ZonaDTO;
+import co.edu.uco.evoc.dto.CandidatoDTO;
+import co.edu.uco.evoc.dto.PersonaDTO;
 
 @RestController()
-@RequestMapping("evoc/api/v1/zona")
-public final class ZonaController {
+@RequestMapping("evoc/api/v1/Candidato")
+public final class CandidatoController {
 	
-private Logger log = LoggerFactory.getLogger(ZonaController.class);
+private Logger log = LoggerFactory.getLogger(CandidatoController.class);
 	
-	private ZonaFacade facade;
+	private CandidatoFacade facade;
 	
 	@GetMapping("/dummy")
-	public ZonaDTO dummy() {
-		return ZonaDTO.create();
+	public CandidatoDTO dummy() {
+		return CandidatoDTO.create();
 	}
 	
 	@GetMapping
-	public ResponseEntity<Response<ZonaDTO>> list(@RequestBody ZonaDTO dto){
+	public ResponseEntity<Response<CandidatoDTO>> list(@RequestBody CandidatoDTO dto){
 		
-		List<ZonaDTO> list = new ArrayList<>();
+		List<CandidatoDTO> list = new ArrayList<>();
 		
 		List<String> messages = new ArrayList<>();
-		messages.add("Estados de tipos de relación institucion consultados exitosamente");
+		messages.add("Candidatos consultados exitosamente");
 		
-		Response<ZonaDTO> response = new Response<>(list, messages);
+		Response<CandidatoDTO> response = new Response<>(list, messages);
 		
-		return new ResponseEntity<Response<ZonaDTO>>(response, HttpStatus.OK);
+		return new ResponseEntity<Response<CandidatoDTO>>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ZonaDTO listById(@PathVariable UUID id){
-		return ZonaDTO.create().setIdentificador(id);
+	public CandidatoDTO listById(@PathVariable UUID id){
+		return (CandidatoDTO) CandidatoDTO.create().setIdentificador(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<ZonaDTO>> create(@RequestBody ZonaDTO dto) {
+	public ResponseEntity<Response<CandidatoDTO>> create(@RequestBody CandidatoDTO dto) {
 		
 		var statusCode = HttpStatus.OK;
-		var response = new Response<ZonaDTO>();
+		var response = new Response<CandidatoDTO>();
 		
 		try {
-			var result = RegistrarZonaValidation.validate(dto);
+			var result = RegistrarCandidatoValidation.validate(dto);
 			
 			if (result.getMessages().isEmpty()) {
-				facade = new ZonaFacadeImpl();
+				facade = new CandidatoFacadeImpl();
 				facade.register(dto);
-				response.getMessages().add("El nuevo tipo relación institucion se ha registrado de forma satidfactoria");
+				response.getMessages().add("El nuevo Candidato se ha registrado de forma satisfactoria");
 			}else {
 				statusCode = HttpStatus.BAD_REQUEST;
 				response.setMessages(result.getMessages());
@@ -88,13 +89,13 @@ private Logger log = LoggerFactory.getLogger(ZonaController.class);
 	}
 	
 	@PutMapping("/{id}")
-	public ZonaDTO update(@PathVariable UUID id, @RequestBody ZonaDTO dto) {
-		return dto.setIdentificador(id);
+	public CandidatoDTO update(@PathVariable UUID id, @RequestBody CandidatoDTO dto) {
+		return (CandidatoDTO) dto.setIdentificador(id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ZonaDTO delete(@PathVariable UUID id) {
-		return ZonaDTO.create().setIdentificador(id);
+	public PersonaDTO delete(@PathVariable UUID id) {
+		return CandidatoDTO.create().setIdentificador(id);
 	}
 
 }
