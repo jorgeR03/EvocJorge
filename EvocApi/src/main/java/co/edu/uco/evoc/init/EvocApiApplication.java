@@ -1,4 +1,4 @@
-package co.edu.uco.evoc.init;
+package co.edu.uco.evoc.init.EvocApiApplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
