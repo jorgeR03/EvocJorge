@@ -10,14 +10,33 @@ public class MyList<E> implements List<E> {
 
     @Override
     public int size() {
-        // Implementa la lógica para obtener el tamaño de la lista
+    	List<String> lista = List.of("elemento1", "elemento2", "elemento3");
+
+    	List<String> lista = List.of("elemento1", "elemento2", "elemento3");
+
+        // Obtener el tamaño de la lista utilizando el método personalizado
+        int tamaño = obtenerTamaño(lista);
+
+        // Imprimir el tamaño de la lista
+        System.out.println("Tamaño de la lista: " + tamaño);
+    }
+
+    // Método para obtener el tamaño de una lista
+    public static <T> int obtenerTamaño(List<T> lista) {
+        return lista.size();
+    }
+        int tamaño = lista.size();
+
+        // Imprimir el tamaño de la lista
+        System.out.println("Tamaño de la lista: " + tamaño);
+    }
+}
         return 0;
     }
 
     @Override
     public boolean isEmpty() {
-        // Implementa la lógica para verificar si la lista está vacía
-        return false;
+  
     }
 
     @Override
